@@ -22,8 +22,16 @@ It intergrates PHP form with an n8n workflow using a webhook.
         |---composer.json       # project dependencies
 ```
 
+## Prerequisites
+- PHP 8.x+
+- Composer
+- [n8](https://n8n.io) (self-hosted or cloud)
+- Google account for Google Sheets API
+- An AI scoring mechanism in your n8n flow
+---
+
 ## Setup instructions
-Clone and install Dependancies.
+### Clone and install Dependancies.
 ```bash
 composer install
 ```

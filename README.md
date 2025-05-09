@@ -12,7 +12,7 @@ It intergrates PHP form with an n8n workflow using a webhook.
 ---
 
 ## Folder Structure
-resume-ai-agent/
+```resume-ai-agent/
 |---backend/
     |---public/
         |---index.php           # Resume upload form   
@@ -20,12 +20,13 @@ resume-ai-agent/
         |---src/
         |---.env                # n8n Webhook URL & config
         |---composer.json       # project dependencies
+```
 
 ## Setup instructions
 Clone and install Dependancies.
 ```bash
 composer install
-
+```
 ## n8n Workflow Overview
 1. Receive data from PHP webhook
 2. Decode base64 resume and parse it

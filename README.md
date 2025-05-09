@@ -14,12 +14,13 @@ It intergrates PHP form with an n8n workflow using a webhook.
 ## Folder Structure
 ```resume-ai-agent/
 |---backend/
-    |---public/
-        |---index.php           # Resume upload form   
-        |---upload.php          # Handles form subission and triggers webhook
-        |---src/
-        |---.env                # n8n Webhook URL & config
-        |---composer.json       # project dependencies
+|    |---public/
+|        |---index.php           # Resume upload form   
+|        |---upload.php          # Handles form subission and triggers webhook
+|        |---src/
+|        |---.env                # n8n Webhook URL & config
+|        |---composer.json       # project dependencies
+|---README.md
 ```
 
 ## Prerequisites

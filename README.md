@@ -59,5 +59,8 @@ composer install
 5. Email the candidate based on the score
 Notify the recruter (HR Dept)via Email.
 
+## Resume AI Workflow Design
+![Automated Recruitment Workflow Design png 1](https://github.com/user-attachments/assets/2d36dd8f-7c0b-4fa4-927e-71bf0898d117)
+
 ## Licence
 MIT-Feel free to use, fork or improve

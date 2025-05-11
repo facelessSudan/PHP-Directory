@@ -6,7 +6,7 @@ use Google\Service\Sheets;
 use Google\Service\Sheets\ValueRange;
 use Monolog\Logger;
 
-class googleSheetsService {
+class GoogleSheetsService {
     private $client;
     private $service;
     private $spreadsheetId;
@@ -40,17 +40,17 @@ class googleSheetsService {
 	];
 
 	$body = new ValueRange(['values' => $values]);
-	$params = ['valuInputOption' => 'RAW'];
+	$params = ['valueInputOption' => 'RAW'];
 
 	try {
-	    $this->service->spreedsheets_values->append(
-	        $this->spreedsheetId,
+	    $this->service->spreadsheets_values->append(
+	        $this->spreadsheetId,
 		$range,
 		$body,
-		$param
+		$params
 	    );
 	    return true;
-	} catch (Exception $e) {
+	} catch (\Exception $e) {
 	    $this->logger->error('Google Sheets error: ' . $e->getMessage());
 	    return false;
 	}

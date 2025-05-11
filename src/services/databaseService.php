@@ -1,5 +1,5 @@
 <?php
-namespace App\Services:
+namespace App\Services;
 
 use PDO;
 use PDOException;
@@ -11,7 +11,7 @@ class DatabaseService {
 
     public function __construct() {
         global $log;
-	$this->logger->$log;
+	$this->logger = $log;
 	$this->connect();
     }
 
@@ -28,12 +28,12 @@ class DatabaseService {
 		$passwd,
 		[
 		    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-		    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-		    PDO::ATT_EMULATE_PREPARES => false
+		    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+		    PDO::ATTR_EMULATE_PREPARES => false
 		]
 	    );
 	} catch (PDOException $e) {
-	    $this->logger->error('Database connection failed: ' . $e-?getMessage());
+	    $this->logger->error('Database connection failed: ' . $e->getMessage());
 	    throw new \RuntimeException('Database connection failed');
 	}
     }
@@ -48,9 +48,9 @@ class DatabaseService {
 		    id,
 		    title,
 		    description,
-		    required_competencies,
+		    required_skills,
 		    preferred_skills,
-		    min_experience_years,
+		    min_experience_years
 		FROM job_descriptions
 		WHERE id = :id
 	    ");
@@ -59,14 +59,14 @@ class DatabaseService {
 
 	    if ($job) {
 	        // Convert comma-separated skills into arrays
-		$job['required_competencies'] = $job['required_competencies'] ?
-		    array_map('trim', explode(',', $job['required_competencies'])) : [];
+		$job['required_skills'] = $job['required_skills'] ?
+		    array_map('trim', explode(',', $job['required_skills'])) : [];
 		$job['preferred_skills'] = $job['preferred_skills'] ?
 		    array_map('trim', explode(',', $job['preferred_skills'])) : [];
 	    }
 
 	    return $job ?: null;
-	} catch (PDOException) {
+	} catch (PDOException $e) {
 	    $this->logger->error('Failed to fetch job description: ' . $e->getMessage());
 	    throw new \RuntimeException('Failed to fetch job description');
 	}
@@ -81,7 +81,7 @@ class DatabaseService {
 	        INSERT INTO resumes
 		(candidate_email, file_name, file_path, file_size, upload_date)
 		VALUES
-		(:email, :name, :path, :size NOW())
+		(:email, :name, :path, :size, NOW())
 	    ");
 
 	    $stmt->execute([
@@ -104,7 +104,7 @@ class DatabaseService {
     public function getResumePath(int $resumeId): ?string {
         try {
 	    $stmt = $this->pdo->prepare ("
-	        SELECT file_path FROM resume WHERE id = :id
+	        SELECT file_path FROM resumes WHERE id = :id
        	    ");
 	    $stmt->execute([':id' => $resumeId]);
 	    $result = $stmt->fetch();
@@ -162,7 +162,7 @@ class DatabaseService {
 	    $stmt =$this->pdo->prepare("
 		INSERT INTO candidate_analysis
 		(resume_id, candidate_email, job_id, match_score, is_match,
-		identified_skills, missing_skills, recomendation, analyzed_at)
+		identified_skills, missing_skills, recommendation, analyzed_at)
                 VALUES
 		(:resume_id, :email, :job_id, :score, :is_match, :identified_skills,
 		:missing_skills, :recommendation, NOW())
@@ -172,11 +172,11 @@ class DatabaseService {
 	        ':resume_id' => $candidateData['resume_id'] ?? null,
 		':email' => $candidateData['email'],
 		':job_id' => $candidateData['job_id'],
-		':score' => $analysisResult['score'],
-		':is_match' => $analysisResult['is_match'] ? 1 : 0,
-		':identified_skills' => $implode(',', $analysisResult['identified_skills']),
-		':missing_skills' => $implode(',', $analysisResult['missing_skills']),
-		':recommendation' => $analysisResult['recommendation'],
+		':score' => $analysisResults['score'],
+		':is_match' => $analysisResults['is_match'] ? 1 : 0,
+		':identified_skills' => implode(',', $analysisResults['identified_skills']),
+		':missing_skills' => implode(',', $analysisResults['missing_skills']),
+		':recommendation' => $analysisResults['recommendation'],
 	    ]);
 	} catch (PDOException $e) {
             $this->logger->error('Failed to save analysis results: ' . $e->getMessage());

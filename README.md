@@ -15,7 +15,7 @@ It intergrates PHP form with an n8n workflow using a webhook.
 ```resume-ai-agent/
 |---composer.json                 # project dependencies
 |---.env                          # n8n Webhook URL & config
-|setup.sh
+|---setup.sh
 |---public/
 |   |---index.php           # Resume upload form
 |   |--- .htaccess
@@ -30,11 +30,12 @@ It intergrates PHP form with an n8n workflow using a webhook.
 |   |--- Services/
 |        |--- GoogleSheetsService.php
 |        |--- EmailService.php
+|        |--- DatabaseService.php
 |--- config/
 |--- logs/
 |--- uploads/
 |    |--- resumes/
-|--- tests
+|--- tests_db.php
 |---README.md
 ```
 

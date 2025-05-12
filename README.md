@@ -35,7 +35,8 @@ It intergrates PHP form with an n8n workflow using a webhook.
 |--- logs/
 |--- uploads/
 |    |--- resumes/
-|--- tests_db.php
+|---tests
+|    |--- tests_db.php
 |---README.md
 ```
 
